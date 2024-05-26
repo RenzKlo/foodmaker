@@ -7,7 +7,8 @@ import streamlit as st
 import tempfile
 
 
-genai.configure(api_key= os.getenv("API_KEY"))
+
+genai.configure(api_key= st.secrets["API_KEY"])
 
 generation_config = {
   "temperature": 1,
@@ -60,6 +61,16 @@ def send_message(image):
       
       prompt_parts = [
       "Do you know what plant this is? How do I best take care of it?\n\n",
+      'export in json data',
+      'like this: \'name\': "plant_name", \'scientific_name\': "plant scientificname", \'care\': "care_instructions"\n\n',
+      '''answer the follwoing factors like Light: Spider plants prefer bright, indirect light. They can tolerate some shade, but they will grow best in a spot that receives at least 4 hours of indirect light per day.
+      Water: Water your spider plant when the top inch of soil is dry. Avoid overwatering, as this can lead to root rot.
+      Soil: Use a well-draining potting mix for your spider plant.
+      Temperature: Spider plants prefer temperatures between 65 and 80 degrees Fahrenheit. They can tolerate cooler temperatures, but they may stop growing.
+      Humidity: Spider plants prefer moderate humidity, but they can tolerate dry air. If your home is very dry, you can mist your plant occasionally.
+      Fertilizer: Fertilize your spider plant once a month during the growing season (spring and summer).
+      Propagation: Spider plants are easy to propagate. You can simply take a cutting from a plantlet (baby spider plant) and pot it in a small pot of well-draining potting mix.''',
+      'add good spacing between the factors\n\n',
       genai.upload_file(tmp_file_name),
       ]
 

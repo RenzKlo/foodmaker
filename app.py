@@ -1,6 +1,7 @@
 import streamlit as st
 from service import send_message
 import time
+import json
 
 def main():
     """
@@ -32,7 +33,12 @@ def main():
         st.write('Plant detected!')
         col1, col2 = st.columns(2)
         col1.image(image, caption='Uploaded image', use_column_width=True)
-        col2.write(st.session_state.response.text)   
+        # col2.title(st.session_state.response.text)
+        # col2.write(st.session_state.response.text)   
+        data = json.loads(st.session_state.response.text.replace("```json\n", "").replace("\n```", ""))
+        col2.title(data.get('name', 'No name found'))
+        col2.write(data.get('scientific_name', 'No name found'))
+        st.write(data.get('care', 'No care instructions found'))  
         
 
 
